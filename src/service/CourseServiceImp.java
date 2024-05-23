@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class CourseServiceImp implements CourseService {
     static Random random = new Random();
@@ -124,8 +123,9 @@ public class CourseServiceImp implements CourseService {
         System.out.print("Insert course id to remove: ");
         Integer id = new Scanner(System.in).nextInt();
         List<Course> findCourse =  courses.stream()
-                .filter(e->e.getId().equals(id))
-                .toList();
-        CourseTableModel.renderCourseToTable(findCourse, 1, 1, 1, 1);
+                .filter(e->e.getId().equals(id)).
+                findFirst().stream().toList();
+        System.out.println(findCourse);
+        // delete?
     }
 }

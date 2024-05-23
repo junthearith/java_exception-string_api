@@ -2,16 +2,19 @@ package repository;
 
 import model.Course;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CourseRepository {
+    private static List<Course> courses = allCourses();
     public static List<Course> allCourses() {
-        List<Course> courseList = new ArrayList<>(
-                List.of(new Course(1, "Web Design", "Jessica", "HTML, CSS", LocalDate.now().toString()),
-                        new Course(2, "Java", "Sokpheng", "OOP", LocalDate.now().toString()))
-        );
-        return courseList;
+        if (courses == null) {
+            System.out.println("Can't get courses data!");
+        }
+        courses = new ArrayList<>();
+        return courses;
+    }
+    public static void add(Course course) {
+        courses.add(course);
     }
 }

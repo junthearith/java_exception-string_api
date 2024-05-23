@@ -57,4 +57,15 @@ public class Course {
     public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", instructor='" + instructor + '\'' +
+                ", requirement='" + requirement + '\'' +
+                ", startDate='" + startDate + '\'' +
+                '}';
+    }
 }

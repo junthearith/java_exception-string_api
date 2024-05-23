@@ -1,4 +1,4 @@
-import service.CourseService;
+import exception.CourseNotFoundException;
 import service.CourseServiceImp;
 import view.View;
 
@@ -25,7 +25,7 @@ public class Main {
                     serviceImp.listAllCourses();
                     break;
                 case "3":
-                    System.out.println("3. search by name");
+                    serviceImp.findCourseById();
                     break;
                 case "4":
                     System.out.println("4. delete by id");

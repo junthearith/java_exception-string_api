@@ -1,14 +1,15 @@
 package service;
 
+import exception.CourseNotFoundException;
 import model.Course;
 import repository.CourseRepository;
 import repository.CourseTableModel;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class CourseServiceImp implements CourseService {
     static Random random = new Random();
@@ -37,8 +38,8 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    public List<Course> getAllCourses() {
-        return CourseRepository.allCourses();
+    public void getAllCourses() {
+
     }
     public void listAllCourses() {
         if (courses == null) {
@@ -93,17 +94,25 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    public Course findCourseById(Integer id) {
-        return null;
+    public void findCourseById() {
+        System.out.println("---------------------------------");
+        System.out.println("Find course by ID");
+        System.out.println("---------------------------------");
+        System.out.print("Insert course id: ");
+        Integer id = new Scanner(System.in).nextInt();
+        List<Course> findCourse =  courses.stream()
+                .filter(e->e.getId().equals(id))
+                .toList();
+        CourseTableModel.renderCourseToTable(findCourse, 1, 1, 1, 1);
     }
 
     @Override
-    public Course findCourseByTitle(String title) {
-        return null;
+    public void findCourseByTitle(String title) {
+
     }
 
     @Override
-    public Course removeCourseById(Integer id) {
-        return null;
+    public void removeCourseById(Integer id) {
+
     }
 }

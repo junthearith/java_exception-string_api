@@ -1,13 +1,11 @@
 package service;
 
-import model.Course;
-
-import java.util.List;
+import exception.CourseNotFoundException;
 
 public interface CourseService {
     void addNewCourse();
-    List<Course> getAllCourses();
-    Course findCourseById(Integer id);
-    Course findCourseByTitle(String title);
-    Course removeCourseById(Integer id);
+    void getAllCourses();
+    void findCourseById() throws CourseNotFoundException;
+    void findCourseByTitle(String title);
+    void removeCourseById(Integer id);
 }

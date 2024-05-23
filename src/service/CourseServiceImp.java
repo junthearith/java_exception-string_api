@@ -39,55 +39,52 @@ public class CourseServiceImp implements CourseService {
 
     @Override
     public void getAllCourses() {
-
-    }
-    public void listAllCourses() {
         if (courses == null) {
             System.out.println("Unable to get students data");
-        }
+        } else {
+            int currentPage = 1;
+            int totalPages = (int)Math.ceil((double)courses.size() / rowSize);
+            int totalRecords = courses.size();
+            while (true) {
+                int startIndex = (currentPage -1) * rowSize;
+                int endIndex = Math.min(startIndex + rowSize, courses.size());
+                List<Course> pageStudents = courses.subList(startIndex, endIndex);
 
-        int currentPage = 1;
-        int totalPages = (int)Math.ceil((double)courses.size() / rowSize);
-        int totalRecords = courses.size();
-        while (true) {
-            int startIndex = (currentPage -1) * rowSize;
-            int endIndex = Math.min(startIndex + rowSize, courses.size());
-            List<Course> pageStudents = courses.subList(startIndex, endIndex);
+                System.out.println();
+                CourseTableModel.renderCourseToTable(pageStudents, rowSize, currentPage, totalPages, totalRecords);
+                CourseTableModel.renderPagination();
 
-            System.out.println();
-            CourseTableModel.renderCourseToTable(pageStudents, rowSize, currentPage, totalPages, totalRecords);
-            CourseTableModel.renderPagination();
-
-            System.out.print("Enter the option(pagination): ");
-            String pageOption = new Scanner(System.in).nextLine();
-            if (pageOption.equalsIgnoreCase("p")) {
-                if (currentPage > 1) {
-                    currentPage--;
-                } else {
-                    System.out.println("You're already on the first page.");
-                }
-            } else if (pageOption.equalsIgnoreCase("n")){
-                if (currentPage < totalPages) {
-                    currentPage++;
-                } else {
-                    System.out.println("You're already on the last page.");
-                }
-            } else if (pageOption.equalsIgnoreCase("f")) {
-                currentPage = 1;
-            } else if (pageOption.equalsIgnoreCase("l")) {
-                currentPage = totalPages;
-            } else if (pageOption.equalsIgnoreCase("b")) {
-                return;
-            } else {
-                try {
-                    int pageNumber = Integer.parseInt(pageOption);
-                    if (pageNumber >= 1 && pageNumber <= totalPages) {
-                        currentPage = pageNumber;
+                System.out.print("Enter the option(pagination): ");
+                String pageOption = new Scanner(System.in).nextLine();
+                if (pageOption.equalsIgnoreCase("p")) {
+                    if (currentPage > 1) {
+                        currentPage--;
                     } else {
-                        System.out.println("Invalid page number. Please enter a number between 1 and " + totalPages);
+                        System.out.println("You're already on the first page.");
                     }
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid input!");
+                } else if (pageOption.equalsIgnoreCase("n")){
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                    } else {
+                        System.out.println("You're already on the last page.");
+                    }
+                } else if (pageOption.equalsIgnoreCase("f")) {
+                    currentPage = 1;
+                } else if (pageOption.equalsIgnoreCase("l")) {
+                    currentPage = totalPages;
+                } else if (pageOption.equalsIgnoreCase("b")) {
+                    return;
+                } else {
+                    try {
+                        int pageNumber = Integer.parseInt(pageOption);
+                        if (pageNumber >= 1 && pageNumber <= totalPages) {
+                            currentPage = pageNumber;
+                        } else {
+                            System.out.println("Invalid page number. Please enter a number between 1 and " + totalPages);
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input!");
+                    }
                 }
             }
         }
@@ -107,12 +104,28 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    public void findCourseByTitle(String title) {
-
+    public void findCourseByTitle() {
+        System.out.println("---------------------------------");
+        System.out.println("Find course by Title");
+        System.out.println("---------------------------------");
+        System.out.print("Insert course title: ");
+        String title = new Scanner(System.in).nextLine();
+        List<Course> findCourse =  courses.stream()
+                .filter(e->e.getTitle().equalsIgnoreCase(title))
+                .toList();
+        CourseTableModel.renderCourseToTable(findCourse, 1, 1, 1, 1);
     }
 
     @Override
-    public void removeCourseById(Integer id) {
-
+    public void removeCourseById() {
+        System.out.println("---------------------------------");
+        System.out.println("Delete course by ID");
+        System.out.println("---------------------------------");
+        System.out.print("Insert course id to remove: ");
+        Integer id = new Scanner(System.in).nextInt();
+        List<Course> findCourse =  courses.stream()
+                .filter(e->e.getId().equals(id))
+                .toList();
+        CourseTableModel.renderCourseToTable(findCourse, 1, 1, 1, 1);
     }
 }

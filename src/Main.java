@@ -14,7 +14,7 @@ public class Main {
         System.out.println();
         View.menu();
         String option = "";
-        while (!option.equals("0")) {
+        while (!option.equals("exit")) {
             System.out.print("Insert option: ");
             option = sc.nextLine();
             switch (option) {
@@ -22,13 +22,20 @@ public class Main {
                     serviceImp.addNewCourse();
                     break;
                 case "2":
-                    serviceImp.listAllCourses();
+                    serviceImp.getAllCourses();
                     break;
                 case "3":
                     serviceImp.findCourseById();
                     break;
                 case "4":
-                    System.out.println("4. delete by id");
+                    serviceImp.findCourseByTitle();
+                    break;
+                case "5":
+                    serviceImp.removeCourseById();
+                    break;
+                case "0":
+                    System.out.println("0. Exit");
+                    System.exit(1);
                     break;
                 case "99":
                     System.out.println("99. Exit");

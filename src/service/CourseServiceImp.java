@@ -38,8 +38,8 @@ public class CourseServiceImp implements CourseService {
 
     @Override
     public void getAllCourses() {
-        if (courses == null) {
-            System.out.println("Unable to get students data");
+        if (courses.isEmpty()) {
+            System.out.println("Course is empty!");
         } else {
             int currentPage = 1;
             int totalPages = (int)Math.ceil((double)courses.size() / rowSize);
@@ -95,11 +95,24 @@ public class CourseServiceImp implements CourseService {
         System.out.println("Find course by ID");
         System.out.println("---------------------------------");
         System.out.print("Insert course id: ");
-        Integer id = new Scanner(System.in).nextInt();
-        List<Course> findCourse =  courses.stream()
-                .filter(e->e.getId().equals(id))
-                .toList();
-        CourseTableModel.renderCourseToTable(findCourse, 1, 1, 1, 1);
+        String input = new Scanner(System.in).nextLine();
+        try {
+            if (!input.isEmpty()) {
+                Integer id = Integer.parseInt(input);
+                List<Course> findCourse =  courses.stream()
+                        .filter(e->e.getId().equals(id))
+                        .toList();
+                if (!findCourse.isEmpty()) {
+                    CourseTableModel.renderCourseToTable(findCourse, 1, 1, 1, 1);
+                } else {
+                    System.out.println("Course id " + id + " was not found!");
+                }
+                return;
+            }
+            throw new CourseNotFoundException("Course not found!");
+        } catch (CourseNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
@@ -109,10 +122,22 @@ public class CourseServiceImp implements CourseService {
         System.out.println("---------------------------------");
         System.out.print("Insert course title: ");
         String title = new Scanner(System.in).nextLine();
-        List<Course> findCourse =  courses.stream()
-                .filter(e->e.getTitle().equalsIgnoreCase(title))
-                .toList();
-        CourseTableModel.renderCourseToTable(findCourse, 1, 1, 1, 1);
+        try {
+            if (!title.isEmpty()) {
+                List<Course> findCourse =  courses.stream()
+                        .filter(e->e.getTitle().equalsIgnoreCase(title))
+                        .toList();
+                if (!findCourse.isEmpty()) {
+                    CourseTableModel.renderCourseToTable(findCourse, 1, 1, 1, 1);
+                } else {
+                    System.out.println("Course title " + title + " was not found!");
+                }
+                return;
+            }
+            throw new CourseNotFoundException("Course not found!");
+        } catch (CourseNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override

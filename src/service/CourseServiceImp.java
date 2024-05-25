@@ -146,11 +146,21 @@ public class CourseServiceImp implements CourseService {
         System.out.println("Delete course by ID");
         System.out.println("---------------------------------");
         System.out.print("Insert course id to remove: ");
-        Integer id = new Scanner(System.in).nextInt();
-        List<Course> findCourse =  courses.stream()
-                .filter(e->e.getId().equals(id)).
-                findFirst().stream().toList();
-        System.out.println(findCourse);
-        // delete?
+        String input = new Scanner(System.in).nextLine();
+        try {
+            if(!input.isEmpty()) {
+                Integer id = Integer.parseInt(input);
+                boolean removed = courses.removeIf(e -> e.getId().equals(id));
+                if (removed) {
+                    System.out.println("Course id " + id + " was removed.");
+                } else {
+                    System.out.println("Course id " + id + " not found.");
+                }
+                return;
+            }
+            throw new CourseNotFoundException("Course was not found!");
+        } catch (CourseNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
